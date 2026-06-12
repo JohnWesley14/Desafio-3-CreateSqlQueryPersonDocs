@@ -1,0 +1,37 @@
+CREATE DATABASE IF NOT EXISTS atv3;
+USE atv3;
+CREATE TABLE IF NOT EXISTS pessoas(
+	Id_Pessoa INT PRIMARY KEY ,
+	Nome VARCHAR(255),
+	CPF VARCHAR(11),
+	Data_Nascimento DATE,
+	Endereco VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS documentos(
+	Id INT PRIMARY KEY  ,
+	Comprovante_Residencia VARCHAR(255),
+	Curriculo VARCHAR(255),
+	Certidao_Nascimento VARCHAR(255),
+	Id_Pessoa INT,
+	CONSTRAINT fk_Person_Documentos_Id_Pessoa
+	FOREIGN KEY (Id_Pessoa)
+	REFERENCES Pessoas(Id_Pessoa)
+);
+
+INSERT INTO pessoas(Id_Pessoa, Nome, CPF, Data_Nascimento, Endereco) 
+VALUES (1, "Neymar", "01010101010", '2008-04-14', "Vila Embratel - São Luís");
+INSERT INTO pessoas(Id_Pessoa, Nome, CPF, Data_Nascimento, Endereco) 
+VALUES (2, "Ronaldinho Gaúcho", "12345123456", '1990-02-10', "Coroadinho - São Luís");
+INSERT INTO pessoas(Id_Pessoa, Nome, CPF, Data_Nascimento, Endereco) 
+VALUES (3, "Cristiano Ronaldo", "77777777777", '2007-07-07', "Piancó VIII - São Luís");
+
+INSERT INTO documentos(Id, Comprovante_Residencia, Curriculo, Certidao_Nascimento, Id_Pessoa)
+VALUES(1, "C:\\Documents\\ComprovanteResidencia.pdf", "C:\\Documents\\Curriculo.pdf", "C:\\Documents\\CertidaoNascimento.pdf", 1);
+INSERT INTO documentos(Id, Comprovante_Residencia, Curriculo, Certidao_Nascimento, Id_Pessoa)
+VALUES(2, "C:\\NeymarCompResidencia.pdf", "C:\\CurriculoAtualizadoSantos.pdf", "C:\\CertidaoNascimentoOficial.pdf", 2);
+INSERT INTO documentos(Id, Comprovante_Residencia, Curriculo, Certidao_Nascimento, Id_Pessoa)
+VALUES(3, "C:\\MeusDocumentos\\ComprovanteResidencia.pdf", "C:\\MeusDocumentos\\Curriculo2026.pdf", "C:\\MeusDocumentos\CertidaoNascimento.pdf", 3);
+
+SELECT p.Nome, Comprovante_Residencia, docs.Curriculo, docs.Certidao_Nascimento FROM documentos AS docs
+JOIN pessoas AS p ON docs.Id_Pessoa = p.Id_Pessoa;
